@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import Reset from "./authentication/Reset";
@@ -6,7 +6,8 @@ import Reset from "./authentication/Reset";
 import AdminPage from "./users/admin/AdminPage";
 import SalesPerson from "./users/salesPerson/SalesPerson";
 import Accountant from "./users/accountant/Accountant";
-import AddEmployee from "./users/admin/AddEmployee";
+import AddEmployee from "./users/admin/AddEmployee/AddEmployee";
+import FireEmployee from "./users/admin/FireEmployee/FireEmployee";
 function App() {
   return (
     <div className="app">
@@ -18,7 +19,7 @@ function App() {
           <Route path="admin" element={<AdminPage />}>
             {/* <Route index element={<AddEmployee />} /> */}
             <Route path="AddEmployee" element={<AddEmployee />} />
-            {/*relative path*/}
+            <Route path="FireEmployee" element={<FireEmployee />} />
           </Route>
           <Route path="salesPerson" element={<SalesPerson />} />
           <Route path="accountant" element={<Accountant />} />

@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { logout } from "../config/firebase";
+import {Link} from "react-router-dom";
+import {logout} from "../config/firebase";
 import "./Navbar.css";
 const Navbar = () => {
   return (
@@ -10,6 +10,9 @@ const Navbar = () => {
         <div className="flex gap-3 ">
           <Link to="AddEmployee">
             <button className="p-2 _btn">Add Employee</button>
+          </Link>
+          <Link to="FireEmployee">
+            <button className="p-2 _btn">Fire Employee</button>
           </Link>
           <Link to="/">
             <button className="dashboard__btn _btn" onClick={logout}>
