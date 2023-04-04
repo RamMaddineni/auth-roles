@@ -14,6 +14,12 @@ const Navbar = () => {
           <Link to="FireEmployee">
             <button className="p-2 _btn">Fire Employee</button>
           </Link>
+          <Link to="SetShow">
+            <button className="p-2 _btn">set Show</button>
+          </Link>
+          <Link to="DeleteShow">
+            <button className="p-2 _btn">Delete Show</button>
+          </Link>
           <Link to="/">
             <button className="dashboard__btn _btn" onClick={logout}>
               Logout

@@ -4,9 +4,17 @@ import {
   auth,
   logInWithEmailAndPassword,
   signInWithGoogle,
+  db,
 } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Login.css";
+import {
+  collection,
+  getCountFromServer,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,12 +22,25 @@ function Login() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const [userTyp, setUserTyp] = useState("");
+  const adminRef = collection(db, "admin");
   useEffect(() => {
     if (loading) {
       // maybe trigger a loading screen
       return;
     }
     if (user && userTyp !== "") navigate(`/${userTyp}`);
+    const func = async () => {
+      if (user) {
+        let email = auth?.currentUser?.email;
+        let q = query(adminRef, where("email", "==", email));
+        let snap = await getCountFromServer(q);
+        if (snap.data().count == 0) {
+          return;
+        }
+        navigate(`/admin/FireEmployee`);
+      }
+    };
+    func();
   }, [user, loading, userTyp]);
 
   const login = async (email, password) => {
@@ -59,14 +80,14 @@ function Login() {
           Login
         </button>
 
-        <div>
+        {/* <div>
           <Link
             className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
             to="/reset"
           >
             Forgot Password
           </Link>
-        </div>
+        </div> */}
         <div>
           Don't have an account?{" "}
           <Link

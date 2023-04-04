@@ -17,7 +17,7 @@ function AddEmployee() {
       return;
     }
   }, [loading]);
-  const handleAdd = async (e, name, email, password, userType) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     await registerEmployee(
       employeeName,
@@ -30,14 +30,10 @@ function AddEmployee() {
   return (
     <div className="">
       <form
-        className="form bg-gradient-to-r from-rose-700 to-violet-700"
+        className="form bg-gradient-to-r from-slate-400 to-slate-400"
         onSubmit={(e) =>
           handleAdd(
-            e,
-            employeeName,
-            employeeEmail,
-            employeePassword,
-            employeeType
+            e
           )
         }
       >

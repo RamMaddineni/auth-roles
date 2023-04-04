@@ -1,4 +1,4 @@
-import {initializeApp} from "firebase/app";
+import { initializeApp } from "firebase/app";
 
 import {
   GoogleAuthProvider,
@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  deleteUser,
 } from "firebase/auth";
 
 import {
@@ -18,8 +19,11 @@ import {
   where,
   addDoc,
   getCountFromServer,
+  deleteDoc,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
-import {getStorage} from "firebase/storage";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCP-bSbKeB68d4UCUqyS7xkZ1dydYJ1W0k",
@@ -29,12 +33,13 @@ const firebaseConfig = {
   messagingSenderId: "366588030798",
   appId: "1:366588030798:web:83f54926187b52a3b5f81f",
   measurementId: "G-MET9L6V017",
-
-
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+console.log(auth);
+// console.log(auth.currentUser.auth);
+
 const db = getFirestore(app);
 const storage = getStorage(app);
 
@@ -43,6 +48,8 @@ const googleProvider = new GoogleAuthProvider();
 const admin = collection(db, "admin");
 const salesPerson = collection(db, "salesPerson");
 const accountant = collection(db, "accountant");
+const createdshows = collection(db, "createdshows");
+const shows = collection(db, "shows");
 
 const signInWithGoogle = async () => {
   try {
@@ -93,6 +100,7 @@ const user_typ = async (email) => {
 };
 const logInWithEmailAndPassword = async (email, password) => {
   try {
+    console.log(email, password);
     await signInWithEmailAndPassword(auth, email, password);
     console.log("came to login func");
     let user;
@@ -187,7 +195,95 @@ const registerEmployee = async (name, email, password, userType) => {
     alert(err.message);
   }
 };
+const setShow = async (date, slot, hostname) => {
+  try {
+    let slots = [];
+    for (let i = 0; i < 5; i++) {
+      slots[i] = false;
+    }
 
+    slots[Number(slot)] = true;
+    const qu = query(shows, where("date", "==", date));
+    let docRef;
+    const snapshot = await getCountFromServer(qu);
+
+    if (snapshot.data().count == 0) {
+      await addDoc(shows, {
+        date,
+        slots,
+      });
+      await addDoc(createdshows, { date, hostname, slotnumber: slot });
+    }
+    if (snapshot.data().count != 0) {
+      let content = await getDocs(qu);
+
+      content.forEach((doc) => {
+        docRef = { ...doc.data(), id: doc.id };
+      });
+      if (docRef.slots[Number(slot)] == true) return false;
+      for (let i = 0; i < 5; i++) {
+        slots[i] = docRef.slots[i];
+      }
+      docRef.slots[Number(slot)] = true;
+      const updateShow = doc(db, "shows", docRef.id);
+      await updateDoc(updateShow, {
+        date: docRef.date,
+        slots: docRef.slots,
+      });
+      await addDoc(createdshows, { date, hostname, slotnumber: slot });
+    }
+    return true;
+  } catch (err) {
+    console.log(err.message);
+    alert(err.message);
+  }
+};
+const deleteShow = async (date, slot) => {
+  try {
+    const q1 = query(
+      createdshows,
+      where("date", "==", date),
+      where("slotnumber", "==", slot)
+    );
+    let snapshot = await getCountFromServer(q1);
+    if (snapshot.data().count == 0) {
+      console.log("zero docs in q1");
+
+      return true;
+    }
+    let content = await getDocs(q1);
+    let deleteDocId;
+    content.forEach((doc) => {
+      deleteDocId = doc.id;
+    });
+
+    const delete_doc = doc(db, "createdshows", deleteDocId);
+
+    await deleteDoc(delete_doc);
+
+    const q2 = query(shows, where("date", "==", date));
+    content = await getDocs(q2);
+    snapshot = await getCountFromServer(q2);
+
+    let id, docRef;
+
+    content.forEach((doc) => {
+      id = doc.id;
+      docRef = { ...doc.data() };
+    });
+    let ind = Number(slot);
+    docRef.slots[ind] = false;
+    const updateShow = doc(db, "shows", id);
+    await updateDoc(updateShow, {
+      date: docRef.date,
+      slots: docRef.slots,
+    });
+    return true;
+  } catch (err) {
+    console.log(err.message);
+    alert(err.message);
+  }
+};
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -203,68 +299,64 @@ const logout = () => {
 };
 const getObj = async (email, userType) => {
   try {
-    let q = query(userType, where("email", "==", email));
-
+    console.log(userType, email);
+    let q;
+    if (userType == "admin") q = query(admin, where("email", "==", email));
+    else if (userType == "salesPerson") {
+      q = query(salesPerson, where("email", "==", email));
+    } else if (userType == "accountant") {
+      q = query(accountant, where("email", "==", email));
+      console.log("logger");
+    }
+    // const snapshot = await getCountFromServer(q);
+    // console.log(snapshot.data().count);
     const querySnapshot = await getDocs(q);
+    const t = await getCountFromServer(q);
+    console.log(t.data().count);
+    console.log("came here : ");
     let Obj;
     querySnapshot.forEach((doc) => {
       // console.log(doc.id, " => ", doc.data());
 
       Obj = doc.data();
-
     });
     return Obj;
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err.message);
     alert(err.message);
   }
+};
 
-
-}
-
-const deleteUser = async (userType) => {
-
-  const auth = app.auth();
+const delete_user = async (userType, adminMail, adminPassword) => {
+  console.log("logger");
   let email = auth?.currentUser?.email;
-  let uid;
-  let Obj;
 
-  await getObj(email, userType).then((val) => {
-    Obj = val;
-  }).catch((err) => console.log(err));
+  let docRef, q;
+  if (userType == "accountant")
+    q = query(accountant, where("email", "==", email));
+  if (userType == "salesPerson")
+    q = query(salesPerson, where("email", "==", email));
 
-  var emp = db.collection(userType).where('email', '==', email);
-  emp.get().then(function (querySnapshot) {// delete from database
-    querySnapshot.forEach(function (doc) {
-      doc.ref.delete();
-    });
+  let content = await getDocs(q);
+  content.forEach((doc) => {
+    docRef = { ...doc.data(), id: doc.id };
   });
-  auth.deleteUser(Obj.uid);// delete from authenticated users.
 
+  const delete_doc = doc(db, userType, docRef.id);
+  await deleteDoc(delete_doc);
+  const user = auth.currentUser;
 
-}
-// const deleteUser = async (user) => {
-//   // Need to create a second app to delete another user in Firebase auth list than the logged in one.
-//   // https://stackoverflow.com/a/38013551/2012407
-//   const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
-
-//   if (!user.email || !user.password) {
-//     return console.warn("Missing email or password to delete the user.");
-//   }
-
-//   await secondaryApp
-//     .auth()
-//     .signInWithEmailAndPassword(user.email, user.password)
-//     .then(() => {
-//       const userInFirebaseAuth = secondaryApp.auth().currentUser;
-//       userInFirebaseAuth.delete(); // Delete the user in Firebase auth list (has to be logged in).
-//       secondaryApp.auth().signOut();
-//       secondaryApp.delete();
-
-//       // Then you can delete the user from the users collection if you have one.
-//     });
-// };
+  deleteUser(user)
+    .then(async () => {
+      alert("User account deleted ");
+      await logInWithEmailAndPassword(adminMail, adminPassword);
+      alert(auth?.currentUser?.email);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      alert(error.message);
+    });
+};
 
 export {
   auth,
@@ -277,5 +369,7 @@ export {
   storage,
   registerEmployee,
   getObj,
-  deleteUser,
+  delete_user,
+  setShow,
+  deleteShow,
 };
