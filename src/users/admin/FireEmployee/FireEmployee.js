@@ -71,10 +71,13 @@ function FireEmployee() {
   return (
     <div className="">
       <form
-        className="form bg-gradient-to-r from-slate-400 to-slate-400"
+        className="form bg-gradient-to-r from-slate-900 to-neutral-900"
         onSubmit={(e) => handleDelete(e, employeeEmail, employeeType)}
       >
-        <h2 className="title_fire"> Enter the employee details to Delete</h2>
+        <h2 className="title_fire bg-gradient-to-r from-slate-900 to-neutral-900">
+          {" "}
+          Enter the employee details to Delete
+        </h2>
 
         <input
           type="email"
@@ -94,7 +97,7 @@ function FireEmployee() {
           onChange={(e) => setEmployeeType(e.target.value)}
         />
 
-        <button className="button" type="submit">
+        <button className="button _btnDelete" type="submit">
           Delete
         </button>
       </form>

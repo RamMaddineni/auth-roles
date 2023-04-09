@@ -1,9 +1,9 @@
 import React from "react";
 import "./AddEmployee.css";
-import {useState, useEffect} from "react";
-import {registerEmployee, auth} from "../../../config/firebase";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { registerEmployee, auth } from "../../../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 function AddEmployee() {
   const [employeeName, setEmployeeName] = useState("");
   const [employeeType, setEmployeeType] = useState("");
@@ -30,14 +30,12 @@ function AddEmployee() {
   return (
     <div className="">
       <form
-        className="form bg-gradient-to-r from-slate-400 to-slate-400"
-        onSubmit={(e) =>
-          handleAdd(
-            e
-          )
-        }
+        className="form bg-gradient-to-r from-slate-900 to-neutral-900"
+        onSubmit={(e) => handleAdd(e)}
       >
-        <h2 className="title"> Enter the employee details to Add</h2>
+        <h2 className="title bg-gradient-to-r from-slate-900 to-neutral-900">
+          Enter the employee details to Add
+        </h2>
 
         <input
           type="text"
@@ -72,7 +70,7 @@ function AddEmployee() {
           onChange={(e) => setEmployeeType(e.target.value)}
         />
 
-        <button className="buttonAdd" type="submit">
+        <button className="buttonAdd _btnAdd" type="submit">
           Add
         </button>
       </form>

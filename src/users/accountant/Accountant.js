@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
-
-import { auth, db, logout } from "../../config/firebase";
+import React, {useEffect, useState} from "react";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {useNavigate, Outlet} from "react-router-dom";
+import firebase from "firebase/app";
+import {auth, db, logout} from "../../config/firebase";
 import {
   query,
   collection,
@@ -10,7 +10,8 @@ import {
   where,
   getCountFromServer,
 } from "firebase/firestore";
-
+import Navbar from "./components/Navbar";
+import './Accountant.css';
 function Accountant() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -33,15 +34,10 @@ function Accountant() {
   }, [user, loading]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__container">
-        Logged in as
-        <div>{name}</div>
-        <div>{user?.email}</div>
-        <button className="dashboard__btn" onClick={logout}>
-          Logout
-        </button>
-      </div>
+    <div className="dashboardAccountant">
+      <Navbar />
+
+      <Outlet />
     </div>
   );
 }

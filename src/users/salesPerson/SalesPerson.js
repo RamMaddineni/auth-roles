@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {useNavigate, Outlet} from "react-router-dom";
 
-import { auth, db, logout } from "../../config/firebase";
+import {auth, db, logout} from "../../config/firebase";
 import {
   query,
   collection,
@@ -10,7 +10,7 @@ import {
   where,
   getCountFromServer,
 } from "firebase/firestore";
-
+import Navbar from "./components/Navbar";
 function SalesPerson() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -33,15 +33,10 @@ function SalesPerson() {
   }, [user, loading]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__container">
-        Logged in as
-        <div>{name}</div>
-        <div>{user?.email}</div>
-        <button className="dashboard__btn" onClick={logout}>
-          Logout
-        </button>
-      </div>
+    <div className="dashboard bg-white-600">
+      <Navbar />
+
+      <Outlet />
     </div>
   );
 }

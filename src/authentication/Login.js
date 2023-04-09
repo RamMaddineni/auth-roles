@@ -37,7 +37,7 @@ function Login() {
         if (snap.data().count == 0) {
           return;
         }
-        navigate(`/admin/FireEmployee`);
+        navigate(`/admin`);
       }
     };
     func();
@@ -56,18 +56,18 @@ function Login() {
   };
 
   return (
-    <div className="login p-4 bg-gradient-to-b from-green-400 to-blue-400">
+    <div className="login p-4 bg-gray-950">
       <div className="login__container">
         <input
           type="text"
-          className="login__textBox"
+          className="login__textBox text-white"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
         />
         <input
           type="password"
-          className="login__textBox"
+          className="login__textBox text-white"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
@@ -80,19 +80,11 @@ function Login() {
           Login
         </button>
 
-        {/* <div>
-          <Link
-            className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
-            to="/reset"
-          >
-            Forgot Password
-          </Link>
-        </div> */}
-        <div>
+        <div className="text-white">
           Don't have an account?{" "}
           <Link
-            className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
             to="/register"
+            className="text-white _register_btn hover:text-blue-800 visited:text-purple-600"
           >
             Register
           </Link>{" "}

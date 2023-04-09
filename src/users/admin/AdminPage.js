@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {useNavigate, Outlet} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate, Outlet } from "react-router-dom";
 import firebase from "firebase/app";
-import {auth, db, logout} from "../../config/firebase";
+import { auth, db, logout } from "../../config/firebase";
 import {
   query,
   collection,
@@ -10,8 +10,8 @@ import {
   where,
   getCountFromServer,
 } from "firebase/firestore";
-import Navbar from "../../components/Navbar";
-
+import Navbar from "./components/Navbar";
+import "./AdminPage.css";
 function AdminPage() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -50,7 +50,7 @@ function AdminPage() {
 
   console.log(user, "Admin page line 33");
   return (
-    <div className="dashboard">
+    <div className="dashboardAdmin">
       <Navbar />
 
       <Outlet />

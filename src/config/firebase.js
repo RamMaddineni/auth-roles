@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 
 import {
   GoogleAuthProvider,
@@ -23,7 +23,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import {getStorage} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCP-bSbKeB68d4UCUqyS7xkZ1dydYJ1W0k",
@@ -195,13 +195,19 @@ const registerEmployee = async (name, email, password, userType) => {
     alert(err.message);
   }
 };
-const setShow = async (date, slot, hostname) => {
+const setShow = async (date, slot, hostname, showname, seatprice) => {
   try {
     let slots = [];
     for (let i = 0; i < 5; i++) {
       slots[i] = false;
     }
+    let arr = [];
+    for (let i = 0; i < 20; i++) {
+      let temp = "00000000000000000000";
 
+      arr.push(temp);
+    }
+    //  arr[0]=[];
     slots[Number(slot)] = true;
     const qu = query(shows, where("date", "==", date));
     let docRef;
@@ -212,13 +218,20 @@ const setShow = async (date, slot, hostname) => {
         date,
         slots,
       });
-      await addDoc(createdshows, { date, hostname, slotnumber: slot });
+      await addDoc(createdshows, {
+        date,
+        hostname,
+        slotnumber: slot,
+        seats: arr,
+        showname,
+        seatprice,
+      });
     }
     if (snapshot.data().count != 0) {
       let content = await getDocs(qu);
 
       content.forEach((doc) => {
-        docRef = { ...doc.data(), id: doc.id };
+        docRef = {...doc.data(), id: doc.id};
       });
       if (docRef.slots[Number(slot)] == true) return false;
       for (let i = 0; i < 5; i++) {
@@ -230,7 +243,14 @@ const setShow = async (date, slot, hostname) => {
         date: docRef.date,
         slots: docRef.slots,
       });
-      await addDoc(createdshows, { date, hostname, slotnumber: slot });
+      await addDoc(createdshows, {
+        date,
+        hostname,
+        slotnumber: slot,
+        seats: arr,
+        showname,
+        seatprice,
+      });
     }
     return true;
   } catch (err) {
@@ -269,7 +289,7 @@ const deleteShow = async (date, slot) => {
 
     content.forEach((doc) => {
       id = doc.id;
-      docRef = { ...doc.data() };
+      docRef = {...doc.data()};
     });
     let ind = Number(slot);
     docRef.slots[ind] = false;
@@ -339,7 +359,7 @@ const delete_user = async (userType, adminMail, adminPassword) => {
 
   let content = await getDocs(q);
   content.forEach((doc) => {
-    docRef = { ...doc.data(), id: doc.id };
+    docRef = {...doc.data(), id: doc.id};
   });
 
   const delete_doc = doc(db, userType, docRef.id);

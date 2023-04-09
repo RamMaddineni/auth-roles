@@ -1,4 +1,12 @@
-._btn {
+.BookTicket {
+  padding: 200px;
+  background-color: rgb(4, 3, 3);
+}
+/* .form_BookTicket {
+  display: flex;
+  flex-basis: 100%;
+} */
+._btnBookTicket {
   display: inline-block;
   padding: 12px 24px;
   border: 1px solid white;
@@ -12,7 +20,7 @@
   z-index: 1;
 }
 
-._btn:before {
+._btnBookTicket:before {
   content: "";
   position: absolute;
   left: 50%;
@@ -27,7 +35,7 @@
   z-index: -1;
 }
 
-._btn:after {
+._btnBookTicket:after {
   content: "";
   position: absolute;
   left: 55%;
@@ -42,19 +50,26 @@
   z-index: -1;
 }
 
-._btn:hover {
+._btnBookTicket:hover {
   color: #ffffff;
   border: 1px solid orange;
 }
 
-._btn:hover:before {
+._btnBookTicket:hover:before {
   top: -35%;
   background-color: orange;
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
 
-._btn:hover:after {
+._btnBookTicket:hover:after {
   top: -45%;
   background-color: orange;
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+.btns {
+  display: flex;
+  /* flex-basis: 100%; */
+  /* margin: 100px; */
+  width: 50%;
+  justify-content: space-around;
 }
