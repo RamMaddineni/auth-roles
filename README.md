@@ -1,71 +1,60 @@
-# Getting Started with Create React App
+//Made By Ram Kumar Maddineni.
+//NIT Rourkela
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+1. npm install
+2. npm start
 
-In the project directory, you can run:
+execute above commands in order to run this website in local server.
 
-### `npm start`
+web deployed links .
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1.https://643287dd7e2e5278df0bbf6c--astounding-churros-59db32.netlify.app/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. https://auth-roles-react.web.app/.
 
-### `npm test`
+use the above only when local server is not working,
+these links have a issue.
+the issue is when we reload the links are getting broken , making us to click the web link again for access.
+So, prefer local server.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+For login credentials refer me:
+Name : Maddineni Ramkumar.
+Roll : 120CS0174.
 
-### `npm run build`
+For frontend : ReactJs.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+backend : firebase.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+deployment : firebase , netlify.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+there are 3 types of users.
 
-### `npm run eject`
+1. admin
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2.salesperson
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. accountant.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+only one admin at max.
+salesperson can be many.
+accountant can also be many.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+admin functions :
 
-## Learn More
+1. add a user.
+2. delete a user.
+3. set a show in a particular date in auditorium.
+4. delete a show.
+5. can access the yearly expenditure sheet.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+salesperson functions :
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. book ticket : he can book tickets for a show as requested by customers.
+2. cancel ticket .
 
-### Code Splitting
+accountant functions :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. He will provide the expenditure cost for every show .
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-"# auth-roles" 
+REFER SRS for better understanding.
